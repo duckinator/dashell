@@ -7,12 +7,14 @@ class Dashell < Shell
   def initialize
     Shell.verbose = false # Why does Shell default to verbose?
     super()
-    at_exit { finish_all_jobs }
     rehash
   end
 
   def run
-    loop { handle_line }
+    loop {
+      print "#{cwd}$ "
+      handle_line
+    }
   end
 
   def rehash
@@ -22,8 +24,6 @@ class Dashell < Shell
   end
 
   def handle_line
-    print "#{cwd}$ "
-
     input = $stdin.gets
     exit if input.nil? # Ctrl-D.
 
